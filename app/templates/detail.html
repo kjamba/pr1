@@ -1,0 +1,57 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <h1 class="mt-4">Организация: {{get_organisation.name}}</h1>
+    <p><a href="/">Вернуться назад</a></p>
+    <p>Дата создания: {{get_organisation.create_date}}</p>
+    <p>Название: {{get_organisation.name}}</p>
+    <p>График работы: {{get_organisation.schedule}}</p>
+    <p>Владелец: {{get_organisation.owner}}</p>
+    <p>Контакты: {{get_organisation.contacts}}</p>
+    <p>Адрес: {{get_organisation.address}}</p>
+
+    <p>Комментарии({{get_organisation.comments_org.all.count}})</p>
+    <hr>
+
+    
+{% if messages %}
+
+        <div class="alert alert-success">
+        {% for m in messages %}
+            {{m}}
+        {% endfor%}
+        </div>
+    {% endif %}
+
+
+
+
+<ul>
+
+    {% for item in get_organisation.comments_org.all %}
+    <li>
+        Дата создания {{item.create_date}}<br>
+        Автор комментария {{item.author}}<br>
+        Статус комментария {{item.status}}<br><br>
+
+        {{item.text}}<br>   
+
+    </li>
+    {% endfor %}
+</ul>
+
+
+
+<p class="mt-4"><b>Добавить комментарий</b></p> 
+<div class="col-4">
+        <form id="add_form" method="post">
+        {% csrf_token %}
+            {{form}}
+        </form>
+
+        <button form="add_form" type="submit" class="btn btn-primary">Добавить</button>
+
+
+
+
+{% endblock %}
